@@ -16,6 +16,7 @@ class SecondActivity : AppCompatActivity() {
     private lateinit var ind:EditText
     private lateinit var count:EditText
     private lateinit var btn: Button
+    val list: MutableList<Books> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
@@ -28,20 +29,28 @@ class SecondActivity : AppCompatActivity() {
 
         val preferences=getSharedPreferences("str",Context.MODE_PRIVATE)
         val edit = preferences.edit()
-        val list: MutableList<String> = mutableListOf(preferences.getString("str","why?").toString())
 
+
+        if(preferences.contains("str")==true){
+            var st=preferences.getString("str","why?").toString()
+            val save = Gson().fromJson<List<Books>>(st,object :TypeToken<List<Books>>(){}.type)
+            list.addAll(save)
+        }
+       //val list: MutableList<Books>
+        //val autList= autr.text.split(" ")
         btn.setOnClickListener{
             if (titl.text.toString()!=""&&autr.text.toString()!=""&&ind.text.toString()!=""&&count.text.toString()!=""){
-                val book = Books(titl.text.toString(), arrayListOf("dsfsd", "rfwerfwe"),ind.text.toString(),count.text.toString().toInt())
+                val autList= autr.text.split(" ")
 
-                list.add(titl.text.toString())
-                list.add(autr.text.toString())
-                list.add(ind.text.toString())
-                list.add(count.text.toString())
-                edit.putString("str", list.toString())
-                edit.apply()
+                val book = Books(titl.text.toString(), autList,ind.text.toString(),count.text.toString().toInt())
+                list.add(book)
+
                 Toast.makeText(this,"Сохранено",Toast.LENGTH_SHORT).show()
-                val books: List<Books> = Gson().toJson<List<Books>>(list, object : TypeToken<List<Books>>(){}.type)
+
+                val books: String = Gson().toJson(list)
+                edit.putString("str", books)
+                edit.apply()
+
                 Log.d("book", books.toString())
             }
             else{
