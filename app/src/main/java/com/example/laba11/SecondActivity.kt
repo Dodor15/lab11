@@ -17,6 +17,7 @@ class SecondActivity : AppCompatActivity() {
     private lateinit var count:EditText
     private lateinit var btn: Button
     val list: MutableList<Books> = mutableListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)

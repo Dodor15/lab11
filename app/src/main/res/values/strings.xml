@@ -7,4 +7,5 @@
     <string name="countPage">Кол-во страниц</string>
     <string name="index">Индекс книги</string>
     <string name="add">Добавить книгу</string>
+    <string name="go">Посмотреть книги</string>
 </resources>
