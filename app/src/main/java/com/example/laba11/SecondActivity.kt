@@ -16,6 +16,7 @@ class SecondActivity : AppCompatActivity() {
     private lateinit var ind:EditText
     private lateinit var count:EditText
     private lateinit var btn: Button
+    var index:Int = -1
     val list: MutableList<Books> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,19 +29,36 @@ class SecondActivity : AppCompatActivity() {
         count=findViewById(R.id.page)
         btn=findViewById(R.id.button3)
 
-        val preferences=getSharedPreferences("str",Context.MODE_PRIVATE)
+        val preferences=getSharedPreferences("str2",Context.MODE_PRIVATE)
         val edit = preferences.edit()
+        val position: Int = intent.getIntExtra("num", -1)
+        val boolean: Boolean = intent.getBooleanExtra("num", false)
+        var bool: Boolean=false
+        bool=boolean
+        index=position
 
-
-        if(preferences.contains("str")==true){
-            var st=preferences.getString("str","why?").toString()
+        if(preferences.contains("str2")==true){
+            var st=preferences.getString("str2","why?").toString()
             val save = Gson().fromJson<List<Books>>(st,object :TypeToken<List<Books>>(){}.type)
             list.addAll(save)
         }
-       //val list: MutableList<Books>
-        //val autList= autr.text.split(" ")
+        if (index!=-1){
+            titl.setText(list[index].title)
+            autr.setText(list[index].authors.toString())
+            ind.setText(list[index].isindex)
+            count.setText(list[index].pageCount.toString())
+        }
+
         btn.setOnClickListener{
+//            if(preferences.contains("str2")==true){
+//                var st=preferences.getString("str2","why?").toString()
+//                val save = Gson().fromJson<List<Books>>(st,object :TypeToken<List<Books>>(){}.type)
+//                list.addAll(save)
+//            }
             if (titl.text.toString()!=""&&autr.text.toString()!=""&&ind.text.toString()!=""&&count.text.toString()!=""){
+                if(index==-1){
+
+
                 val autList= autr.text.split(" ")
 
                 val book = Books(titl.text.toString(), autList,ind.text.toString(),count.text.toString().toInt())
@@ -49,10 +67,20 @@ class SecondActivity : AppCompatActivity() {
                 Toast.makeText(this,"Сохранено",Toast.LENGTH_SHORT).show()
 
                 val books: String = Gson().toJson(list)
-                edit.putString("str", books)
+                edit.putString("str2", books)
                 edit.apply()
 
                 Log.d("book", books.toString())
+                }
+                else{
+                    list[index].pageCount=count.text.toString().toInt()
+                    list[index].authors= listOf(autr.text.toString())
+                    list[index].title=titl.text.toString()
+                    list[index].isindex=ind.text.toString()
+                    val books: String = Gson().toJson(list)
+                    edit.putString("str2", books)
+                    edit.apply()
+                }
             }
             else{
                 Toast.makeText(this,"Не всё записано",Toast.LENGTH_SHORT).show()

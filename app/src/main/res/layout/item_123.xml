@@ -1,6 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/la"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -15,15 +16,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="TextView" />
+
     <TextView
         android:id="@+id/tvIndex"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="textview"/>
+        android:text="textview" />
+
     <TextView
         android:id="@+id/tvCount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="textviev"/>
+        android:text="textviev" />
 
 </LinearLayout>
